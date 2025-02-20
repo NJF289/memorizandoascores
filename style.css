@@ -80,7 +80,6 @@ body {
     flex-wrap: wrap;
   }
   
-  /* Aumenta o tamanho dos círculos para 100px e centraliza o texto */
   .button {
     width: 100px;
     height: 100px;
@@ -99,17 +98,24 @@ body {
     position: relative;
   }
   
+  /* Indicador de nível dinâmico e colorido */
+  .level-indicator {
+    font-size: 2.5em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 3s infinite;
+  }
+  
   .message {
     margin-top: 20px;
     font-size: 24px;
     color: #333;
   }
   
-  .performance {
-    display: none;
-  }
-  
-  /* Estilo para o bloco do desafio final com fade-in */
   #finalLevel {
     display: none;
     flex-direction: column;
@@ -171,195 +177,7 @@ body {
       padding: 5px;
     }
   
-    .row {body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        font-family: Arial, sans-serif;
-        background-size: cover;
-        background-position: center;
-        background-image: url('img/test.jpeg');
-        background-repeat: no-repeat;
-      }
-      
-      .container, .input-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: rgba(250, 236, 236, 0.7);
-        padding: 20px;
-        border: 2px solid black;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        position: relative;
-      }
-      
-      .input-container {
-        max-width: 400px;
-        width: 80%;
-        margin: 0 auto;
-      }
-      
-      .input-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .title {
-        font-size: 3em;
-        text-align: center;
-        margin-bottom: 20px;
-        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: rainbow 3s infinite;
-        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-      }
-      
-      .input-wrapper h4 {
-        margin-bottom: 10px;
-      }
-      
-      input[type="text"] {
-        padding: 10px;
-        margin-top: 10px;
-        margin-bottom: 20px;
-        border: 2px solid black;
-        border-radius: 5px;
-        width: 100%;
-      }
-      
-      button {
-        padding: 10px 20px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
-      
-      button:hover {
-        background-color: #45a049;
-      }
-      
-      .row {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 10px;
-        flex-wrap: wrap;
-      }
-      
-      .button {
-        width: 100px;
-        height: 100px;
-        margin: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        cursor: pointer;
-        border-radius: 50%;
-        background-color: transparent;
-        border: 2px solid black;
-        transition: background-color 0.2s, border-color 0.2s, transform 0.1s, opacity 1s ease;
-        font-weight: bold;
-        text-transform: capitalize;
-        position: relative;
-      }
-      
-      /* Indicador de nível com mensagem dinâmica e colorida */
-      .level-indicator {
-        font-size: 2.5em;
-        font-weight: bold;
-        text-align: center;
-        margin-bottom: 20px;
-        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: rainbow 3s infinite;
-      }
-      
-      .message {
-        margin-top: 20px;
-        font-size: 24px;
-        color: #333;
-      }
-      
-      .performance {
-        display: none;
-      }
-      
-      #finalLevel {
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 20px;
-        opacity: 0;
-        transition: opacity 1s ease;
-      }
-      
-      #finalLevel.show {
-        opacity: 1;
-      }
-      
-      .modal {
-        display: flex;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
-        justify-content: center;
-        align-items: center;
-      }
-      
-      .modal-content {
-        background-color: white;
-        padding: 20px;
-        border: 1px solid black;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 90%;
-        max-width: 600px;
-        text-align: center;
-      }
-      
-      @keyframes rainbow {
-        0% { background-position: 0%; }
-        100% { background-position: 100%; }
-      }
-      
-      @media (max-width: 768px) {
-        .title {
-          font-size: 2em;
-        }
-      
-        .button {
-          width: 80px;
-          height: 80px;
-        }
-      
-        .container {
-          padding: 10px;
-        }
-      
-        .input-container {
-          padding: 5px;
-        }
-      
-        .row {
-          flex-direction: row;
-          justify-content: space-around;
-        }
-      }
-      
+    .row {
       flex-direction: row;
       justify-content: space-around;
     }

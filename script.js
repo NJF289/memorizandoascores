@@ -58,6 +58,7 @@ document.getElementById('startButton').addEventListener('click', () => {
     document.getElementById('gameContainer').style.display = 'flex';
     document.getElementById('playerDisplay').textContent = `Jogador: ${playerName}`;
     
+    // Mostra o vídeo tutorial na primeira vez que o jogo é aberto
     if (!sessionStorage.getItem('tutorialShown')) {
       showVideoModal();
       sessionStorage.setItem('tutorialShown', 'true');
@@ -122,7 +123,6 @@ function checkPlayerMove(index) {
     if (currentStep === sequence.length) {
       currentStep = 0;
       playerSequence = [];
-      updatePerformanceTable();
       setTimeout(() => {
         buttons.forEach(button => {
           button.classList.remove('active');
@@ -148,23 +148,6 @@ function showGameOverMessage() {
   } else {
     resetGame(true);
   }
-}
-
-function updatePerformanceTable() {
-  const tableBody = document.getElementById('performanceTable').querySelector('tbody');
-  const newRow = document.createElement('tr');
-  const roundCell = document.createElement('td');
-  const dateCell = document.createElement('td');
-
-  const now = new Date();
-  const date = now.toLocaleDateString();
-
-  roundCell.textContent = round;
-  dateCell.textContent = date;
-
-  newRow.appendChild(roundCell);
-  newRow.appendChild(dateCell);
-  tableBody.appendChild(newRow);
 }
 
 function resetGame(backToStart) {
