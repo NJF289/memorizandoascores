@@ -39,8 +39,8 @@ let sequencePlaying = false;
 let playerName = '';
 
 // Variáveis do Nível 2 (Desafio Final)
-let finalPhase = 0;  // Será reiniciado para 1 quando o Nível 2 começar
-const finalPhasesTotal = 10;  // Nível 2 terá 10 fases
+let finalPhase = 0; // Será reiniciado para 1 quando o Nível 2 começar
+const finalPhasesTotal = 10; // Nível 2 terá 10 fases
 let finalCorrectColor = '';
 
 // Função auxiliar para exibir um indicador de nível dinâmico e colorido
@@ -132,7 +132,7 @@ function checkPlayerMove(index) {
           button.classList.remove('active');
           button.style.backgroundColor = '';
         });
-        if (round < maxRounds) {
+        if (round < 5) {
           nextRound();
         } else {
           transitionToFinalLevel();
@@ -181,14 +181,16 @@ function resetGame(backToStart) {
 
 function showVideoModal() {
   const videoModal = document.getElementById('videoModal');
-  videoModal.style.display = 'flex';
   const tutorialVideo = document.getElementById('tutorialVideo');
+  videoModal.style.display = 'flex';
   tutorialVideo.play();
   const closeVideoButton = document.getElementById('closeVideoButton');
   closeVideoButton.addEventListener('click', () => {
+    tutorialVideo.pause();
+    tutorialVideo.currentTime = 0;
     videoModal.style.display = 'none';
     nextRound();
-  });
+  }, { once: true });
 }
 
 buttons.forEach((button, index) => {
