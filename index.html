@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Memória</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="input-container">
+        <h1 class="title">Jogo de Memória</h1>
+        <div class="input-wrapper">
+            <h4>Digite seu nome para iniciar o jogo</h4>
+            <label for="playerName">Nome do Jogador:</label>
+            <input type="text" id="playerName" placeholder="Digite seu nome">
+            <button id="startButton">Iniciar Jogo</button>
+        </div>
+    </div>
+    <div class="container" id="gameContainer" style="display: none;">
+        <h1 class="title">Jogo de Memória</h1>
+        <div id="playerDisplay" class="message"></div>
+        <!-- Primeira linha com 5 botões -->
+        <div class="row">
+            <div id="button1" class="button"></div>
+            <div id="button2" class="button"></div>
+            <div id="button3" class="button"></div>
+            <div id="button4" class="button"></div>
+            <div id="button5" class="button"></div>
+        </div>
+        <!-- Segunda linha com 5 botões -->
+        <div class="row">
+            <div id="button6" class="button"></div>
+            <div id="button7" class="button"></div>
+            <div id="button8" class="button"></div>
+            <div id="button9" class="button"></div>
+            <div id="button10" class="button"></div>
+        </div>
+        <div id="message" class="message"></div>
+        <div class="performance">
+            <h3>Desempenho do Jogador</h3>
+            <table id="performanceTable">
+                <thead>
+                    <tr>
+                        <th>Rodada</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="export-container">
+            <button id="exportButton">Exportar CSV</button>
+        </div>
+    </div>
+    <!-- Modal para o tutorial em vídeo -->
+    <div id="videoModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <video id="tutorialVideo" width="100%" controls autoplay loop>
+                <source src="video/tutorial.mp4" type="video/mp4">
+                Seu navegador não suporta o elemento de vídeo.
+            </video>
+            <h4>Para Jogar Clique na Sequência de Cores que Aparecerá </h4>
+            <button id="closeVideoButton">OK</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
