@@ -102,10 +102,6 @@ button:hover {
     display: none;
 }
 
-.export-container {
-    margin-top: 20px;
-}
-
 .modal {
     display: flex;
     position: fixed;

@@ -68,7 +68,7 @@ function playSequence() {
         setTimeout(() => {
             button.style.backgroundColor = '';
             button.classList.remove('active');
-        }, 500); // Mantenha o botão aceso por 0.5 segundos
+        }, 500); // Mantém o botão aceso por 0.5 segundos
         i++;
     }, 1000); // Intervalo de 1 segundo
 }
@@ -103,34 +103,12 @@ function checkPlayerMove(index) {
 
 // Função para mostrar mensagem de fim de jogo
 function showGameOverMessage() {
-    const confirmation = confirm('Game Over! Deseja reiniciar o jogo? (Ok para continuar, Cancelar para voltar à tela inicial e exportar o desempenho)');
+    const confirmation = confirm('Game Over! Deseja reiniciar o jogo? (Ok para continuar, Cancelar para voltar à tela inicial)');
     if (confirmation) {
         resetGame(false);
     } else {
-        exportPerformanceCSV();
-        clearPerformanceTable();
         resetGame(true);
     }
-}
-
-// Função para exportar a tabela de desempenho para um arquivo CSV
-function exportPerformanceCSV() {
-    const table = document.getElementById('performanceTable');
-    let csvContent = 'Rodada,Data\n';
-    for (let i = 1; i < table.rows.length; i++) {
-        let rowData = [];
-        for (let cell of table.rows[i].cells) {
-            rowData.push(cell.textContent);
-        }
-        csvContent += rowData.join(',') + '\n';
-    }
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${playerName}_desempenho.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
 }
 
 // Função para atualizar a tabela de desempenho
@@ -171,14 +149,6 @@ function resetGame(backToStart) {
     }
 }
 
-// Função para limpar a tabela de desempenho
-function clearPerformanceTable() {
-    const tableBody = document.getElementById('performanceTable').querySelector('tbody');
-    while (tableBody.firstChild) {
-        tableBody.removeChild(tableBody.firstChild);
-    }
-}
-
 // Função para mostrar o modal de vídeo
 function showVideoModal() {
     const videoModal = document.getElementById('videoModal');
@@ -200,9 +170,4 @@ buttons.forEach((button, index) => {
             checkPlayerMove(index);
         }
     });
-});
-
-// Adiciona evento de clique para exportar o desempenho
-document.getElementById('exportButton').addEventListener('click', () => {
-    exportPerformanceCSV();
 });
