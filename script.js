@@ -1,7 +1,7 @@
 // Seleciona todos os botões do jogo
 const buttons = document.querySelectorAll('.button');
 
-// Array de cores: cada objeto contém o nome em português e o valor CSS correspondente
+// Array de cores para o Nível 1: cada objeto contém o nome em português e o valor CSS correspondente
 const buttonColors = [
   { name: 'lima', css: 'lime' },
   { name: 'vermelho', css: 'red' },
@@ -15,7 +15,21 @@ const buttonColors = [
   { name: 'marrom', css: 'brown' }
 ];
 
-// Arrays e variáveis para manter o estado do jogo (nível 1)
+// Array de cores para o Nível 2 – cores mais conhecidas
+const levelTwoColors = [
+  { name: 'vermelho', css: 'red' },
+  { name: 'azul', css: 'blue' },
+  { name: 'amarelo', css: 'yellow' },
+  { name: 'verde', css: 'green' },
+  { name: 'laranja', css: 'orange' },
+  { name: 'roxo', css: 'purple' },
+  { name: 'rosa', css: 'pink' },
+  { name: 'preto', css: 'black' },
+  { name: 'branco', css: 'white' },
+  { name: 'cinza', css: 'gray' }
+];
+
+// Variáveis do Nível 1 (Jogo de Memória)
 const sequence = [];
 let playerSequence = [];
 let round = 0;
@@ -24,23 +38,17 @@ let gameOver = false;
 let sequencePlaying = false;
 let playerName = '';
 
-// Variáveis para o nível final (desafio final)
-let finalPhase = 0;
-const finalPhasesTotal = 3;
+// Variáveis do Nível 2 (Desafio Final)
+let finalPhase = 0;  // Será reiniciado para 1 quando o Nível 2 começar
+const finalPhasesTotal = 10;  // Nível 2 terá 10 fases
 let finalCorrectColor = '';
 
-// Define o número máximo de rodadas do jogo de memória antes do desafio final
-const maxRounds = 5;
-
-/* FUNÇÃO AUXILIAR: Exibe um indicador de nível dinâmico e colorido.
-   O indicador é mostrado por 2 segundos e depois faz fade out.
-   Quando a animação termina, chama o callback passado (se houver). */
+// Função auxiliar para exibir um indicador de nível dinâmico e colorido
 function showLevelIndicator(message, callback) {
   const levelIndicator = document.getElementById('levelIndicator');
   levelIndicator.textContent = message;
   levelIndicator.style.display = 'block';
   levelIndicator.style.opacity = 1;
-  // Após 2 segundos, inicia fade-out
   setTimeout(() => {
     levelIndicator.style.opacity = 0;
     setTimeout(() => {
@@ -50,7 +58,7 @@ function showLevelIndicator(message, callback) {
   }, 2000);
 }
 
-// EVENTO PARA INICIAR O JOGO
+// Inicia o jogo ao clicar no botão "Iniciar Jogo"
 document.getElementById('startButton').addEventListener('click', () => {
   playerName = document.getElementById('playerName').value;
   if (playerName.trim() !== '') {
@@ -58,7 +66,6 @@ document.getElementById('startButton').addEventListener('click', () => {
     document.getElementById('gameContainer').style.display = 'flex';
     document.getElementById('playerDisplay').textContent = `Jogador: ${playerName}`;
     
-    // Mostra o vídeo tutorial na primeira vez que o jogo é aberto
     if (!sessionStorage.getItem('tutorialShown')) {
       showVideoModal();
       sessionStorage.setItem('tutorialShown', 'true');
@@ -70,8 +77,7 @@ document.getElementById('startButton').addEventListener('click', () => {
   }
 });
 
-// NÍVEL 1 - JOGO DE MEMÓRIA
-
+// Nível 1 – Jogo de Memória
 function nextRound() {
   let randomButton;
   do {
@@ -80,7 +86,6 @@ function nextRound() {
   sequence.push(randomButton);
   round++;
   currentStep = 0;
-  // Se for a primeira rodada, mostra "NÍVEL 1" antes de tocar a sequência
   if (round === 1) {
     showLevelIndicator("NÍVEL 1", playSequence);
   } else {
@@ -99,8 +104,7 @@ function playSequence() {
       return;
     }
     const button = buttons[sequence[i]];
-    const buttonIndex = sequence[i];
-    const color = buttonColors[buttonIndex].css;
+    const color = buttonColors[sequence[i]].css;
     button.style.backgroundColor = color;
     button.classList.add('active');
     setTimeout(() => {
@@ -196,8 +200,7 @@ buttons.forEach((button, index) => {
   });
 });
 
-// TRANSIÇÃO PARA O NÍVEL FINAL
-
+// Transição para o Nível 2
 function transitionToFinalLevel() {
   buttons.forEach(button => {
     button.style.transition = "opacity 1s ease";
@@ -205,19 +208,19 @@ function transitionToFinalLevel() {
   });
   setTimeout(() => {
     buttons.forEach((button, index) => {
-      button.style.backgroundColor = buttonColors[index].css;
+      button.style.backgroundColor = levelTwoColors[index].css;
       button.style.opacity = 1;
       button.textContent = '';
     });
     showLevelIndicator("NÍVEL 2", () => {
-      finalPhase = 0;
+      finalPhase = 1; // Reinicia a fase para 1 no Nível 2
+      updateFinalPhaseIndicator();
       startFinalLevel();
     });
   }, 1000);
 }
 
-// NÍVEL 2 - DESAFIO FINAL
-
+// Nível 2 – Desafio Final (usando levelTwoColors)
 function startFinalLevel() {
   buttons.forEach(button => {
     button.style.transition = "opacity 1s ease";
@@ -225,13 +228,13 @@ function startFinalLevel() {
   });
   setTimeout(() => {
     buttons.forEach((button, index) => {
-      button.style.backgroundColor = buttonColors[index].css;
+      button.style.backgroundColor = levelTwoColors[index].css;
       button.style.opacity = 1;
       button.textContent = '';
     });
     const targetIndex = Math.floor(Math.random() * 10);
-    finalCorrectColor = buttonColors[targetIndex].name;
-    let otherColors = buttonColors.filter(color => color.name !== finalCorrectColor);
+    finalCorrectColor = levelTwoColors[targetIndex].name;
+    let otherColors = levelTwoColors.filter(color => color.name !== finalCorrectColor);
     let randomWrongColor = otherColors[Math.floor(Math.random() * otherColors.length)].name;
     buttons[targetIndex].textContent = randomWrongColor;
     
@@ -254,25 +257,33 @@ function transitionFinalPhase() {
   });
   setTimeout(() => {
     buttons.forEach((button, index) => {
-      button.style.backgroundColor = buttonColors[index].css;
+      button.style.backgroundColor = levelTwoColors[index].css;
       button.style.opacity = 1;
       button.textContent = '';
     });
     const targetIndex = Math.floor(Math.random() * 10);
-    finalCorrectColor = buttonColors[targetIndex].name;
-    let otherColors = buttonColors.filter(color => color.name !== finalCorrectColor);
+    finalCorrectColor = levelTwoColors[targetIndex].name;
+    let otherColors = levelTwoColors.filter(color => color.name !== finalCorrectColor);
     let randomWrongColor = otherColors[Math.floor(Math.random() * otherColors.length)].name;
     buttons[targetIndex].textContent = randomWrongColor;
   }, 1000);
+}
+
+function updateFinalPhaseIndicator() {
+  document.getElementById('finalPhaseIndicator').textContent = `Fase ${finalPhase}`;
 }
 
 function checkFinalAnswer() {
   const userAnswer = document.getElementById('finalAnswer').value.trim().toLowerCase();
   if (userAnswer === finalCorrectColor.toLowerCase()) {
     finalPhase++;
-    if (finalPhase < finalPhasesTotal) {
-      transitionFinalPhase();
-    } else {
+    if (finalPhase <= finalPhasesTotal) {
+      updateFinalPhaseIndicator();
+      if (finalPhase <= finalPhasesTotal) {
+        transitionFinalPhase();
+      }
+    }
+    if (finalPhase > finalPhasesTotal) {
       showLevelIndicator("Você venceu!", () => {
         resetGame(true);
       });

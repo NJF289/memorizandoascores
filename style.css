@@ -116,6 +116,12 @@ body {
     color: #333;
   }
   
+  /* Estilo para o indicador de fase do nível final */
+  #finalPhaseIndicator {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
   #finalLevel {
     display: none;
     flex-direction: column;
