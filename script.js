@@ -10,7 +10,6 @@ const colors = [
   { name: 'laranja', css: 'orange' },
   { name: 'roxo', css: 'purple' },
   { name: 'rosa', css: 'pink' },
-  { name: 'branco', css: 'white' },
   { name: 'cinza', css: 'gray' },
   { name: 'marrom', css: 'brown' }
 ];
@@ -67,7 +66,7 @@ document.getElementById('startButton').addEventListener('click', () => {
 function nextRound() {
   let randomButton;
   do {
-    randomButton = Math.floor(Math.random() * 10);
+    randomButton = Math.floor(Math.random() * colors.length);
   } while (sequence.includes(randomButton));
   sequence.push(randomButton);
   round++;
@@ -220,7 +219,7 @@ function startFinalLevel() {
       button.style.opacity = 1;
       button.textContent = '';
     });
-    const targetIndex = Math.floor(Math.random() * 10);
+    const targetIndex = Math.floor(Math.random() * colors.length);
     finalCorrectColor = colors[targetIndex].name;
     let otherColors = colors.filter(color => color.name !== finalCorrectColor);
     let randomWrongColor = otherColors[Math.floor(Math.random() * otherColors.length)].name;
@@ -249,7 +248,7 @@ function transitionFinalPhase() {
       button.style.opacity = 1;
       button.textContent = '';
     });
-    const targetIndex = Math.floor(Math.random() * 10);
+    const targetIndex = Math.floor(Math.random() * colors.length);
     finalCorrectColor = colors[targetIndex].name;
     let otherColors = colors.filter(color => color.name !== finalCorrectColor);
     let randomWrongColor = otherColors[Math.floor(Math.random() * otherColors.length)].name;
