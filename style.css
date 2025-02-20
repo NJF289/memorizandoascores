@@ -122,7 +122,7 @@ body {
     margin-bottom: 10px;
   }
   
-  /* Caixa do desafio final (Nível 2) reduzida e sem fundo/borda */
+  /* Caixa do desafio final (Nível 2) reduzida, sem fundo ou borda */
   #finalLevel {
     display: none;
     flex-direction: column;

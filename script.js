@@ -1,8 +1,9 @@
 // Seleciona todos os botões do jogo
 const buttons = document.querySelectorAll('.button');
 
-// Array único de cores para ambos os níveis – cores mais conhecidas sem o preto
+// Array único de cores para ambos os níveis – 10 cores mais conhecidas (sem incluir preto)
 const colors = [
+  { name: 'lima', css: 'lime' },
   { name: 'vermelho', css: 'red' },
   { name: 'azul', css: 'blue' },
   { name: 'amarelo', css: 'yellow' },
@@ -10,7 +11,7 @@ const colors = [
   { name: 'laranja', css: 'orange' },
   { name: 'roxo', css: 'purple' },
   { name: 'rosa', css: 'pink' },
-  { name: 'cinza', css: 'gray' },
+  { name: 'ciano', css: 'cyan' },
   { name: 'marrom', css: 'brown' }
 ];
 
@@ -24,7 +25,7 @@ let sequencePlaying = false;
 let playerName = '';
 
 // Variáveis do Nível 2 (Desafio Final)
-let finalPhase = 0; // Será reiniciado para 1 quando o Nível 2 começar
+let finalPhase = 0; // Reinicia para 1 no início do Nível 2
 const finalPhasesTotal = 10; // Nível 2 terá 10 fases
 let finalCorrectColor = '';
 
