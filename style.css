@@ -15,7 +15,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(250, 236, 236, 0.7);
+    background-color: rgba(250, 236, 236, 0.7);
     padding: 20px;
     border: 2px solid black;
     border-radius: 10px;
@@ -80,19 +80,23 @@ body {
     flex-wrap: wrap;
   }
   
+  /* Aumenta o tamanho dos círculos para 100px e centraliza o texto */
   .button {
-    width: 70px;
-    height: 70px;
+    width: 100px;
+    height: 100px;
     margin: 5px;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     cursor: pointer;
     border-radius: 50%;
     background-color: transparent;
     border: 2px solid black;
-    transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
-    position: relative;
+    transition: background-color 0.2s, border-color 0.2s, transform 0.1s, opacity 1s ease;
     font-weight: bold;
     text-transform: capitalize;
+    position: relative;
   }
   
   .message {
@@ -105,11 +109,18 @@ body {
     display: none;
   }
   
+  /* Estilo para o bloco do desafio final com fade-in */
   #finalLevel {
     display: none;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  
+  #finalLevel.show {
+    opacity: 1;
   }
   
   .modal {
@@ -148,8 +159,8 @@ body {
     }
   
     .button {
-      width: 50px;
-      height: 50px;
+      width: 80px;
+      height: 80px;
     }
   
     .container {

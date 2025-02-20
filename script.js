@@ -10,16 +10,19 @@ let gameOver = false;
 let sequencePlaying = false;
 let playerName = '';
 
-// Constante para definir o número máximo de rodadas antes do desafio final
+// Variáveis para o nível final (desafio Stroop modificado)
+let finalPhase = 0;
+const finalPhasesTotal = 3;
+let finalCorrectColor = '';
+
+// Define o número máximo de rodadas do jogo de memória (nível 1) antes do desafio final
 const maxRounds = 5;
 
-// Array de cores para os botões (10 cores)
+// Array de cores em português (10 cores)
 const buttonColors = [
-  'lime', 'red', 'blue', 'yellow', 'orange', 
-  'purple', 'pink', 'cyan', 'green', 'brown'
+  'lima', 'vermelho', 'azul', 'amarelo', 'laranja',
+  'roxo', 'rosa', 'ciano', 'verde', 'marrom'
 ];
-
-let finalCorrectColor = '';
 
 // Evento para iniciar o jogo
 document.getElementById('startButton').addEventListener('click', () => {
@@ -41,7 +44,7 @@ document.getElementById('startButton').addEventListener('click', () => {
   }
 });
 
-// Função para iniciar a próxima rodada da memória
+// Função para iniciar a próxima rodada da memória (nível 1)
 function nextRound() {
   let randomButton;
   // Gera um novo botão aleatório que ainda não esteja na sequência
@@ -54,7 +57,7 @@ function nextRound() {
   playSequence();
 }
 
-// Função para tocar a sequência de botões
+// Função para tocar a sequência de botões (nível 1)
 function playSequence() {
   document.getElementById('message').textContent = `Fase ${round}`;
   sequencePlaying = true;
@@ -78,7 +81,7 @@ function playSequence() {
   }, 1000); // Intervalo de 1 segundo
 }
 
-// Função para checar a jogada do jogador
+// Função para checar a jogada do jogador (nível 1)
 function checkPlayerMove(index) {
   if (sequencePlaying) return;
   const button = buttons[index];
@@ -97,12 +100,12 @@ function checkPlayerMove(index) {
           button.classList.remove('active');
           button.style.backgroundColor = '';
         });
-        // Se ainda não atingiu o máximo de rodadas, continua o jogo da memória;
-        // caso contrário, inicia o desafio final.
+        // Se ainda não atingiu o máximo de rodadas, continua o jogo de memória;
+        // caso contrário, inicia a transição para o nível final.
         if (round < maxRounds) {
           nextRound();
         } else {
-          startFinalLevel();
+          transitionToFinalLevel();
         }
       }, 1000);
     }
@@ -148,13 +151,14 @@ function resetGame(backToStart) {
   currentStep = 0;
   gameOver = false;
   sequencePlaying = false;
+  finalPhase = 0;
   buttons.forEach(button => {
     button.classList.remove('active');
     button.style.backgroundColor = '';
     button.textContent = '';
   });
-  // Esconde o desafio final (se estiver visível) e limpa o campo de resposta
   document.getElementById('finalLevel').style.display = 'none';
+  document.getElementById('finalLevel').classList.remove('show');
   document.getElementById('finalAnswer').value = '';
   
   if (backToStart) {
@@ -178,7 +182,7 @@ function showVideoModal() {
   });
 }
 
-// Evento de clique para cada botão do jogo
+// Evento de clique para cada botão do jogo (nível 1)
 buttons.forEach((button, index) => {
   button.addEventListener('click', () => {
     if (!gameOver && !sequencePlaying) {
@@ -188,41 +192,105 @@ buttons.forEach((button, index) => {
   });
 });
 
-// FUNÇÕES DO DESAFIO FINAL
 
-// Função que inicia o desafio final
-function startFinalLevel() {
-  // Exibe todas as cores (liga todos os botões)
-  buttons.forEach((button, index) => {
-    button.style.backgroundColor = buttonColors[index];
-    button.textContent = ''; // Garante que não haja texto anteriormente
+// TRANSIÇÃO PARA O NÍVEL FINAL
+
+function transitionToFinalLevel() {
+  // Aplica efeito de fade out nos botões
+  buttons.forEach(button => {
+    button.style.transition = "opacity 1s ease";
+    button.style.opacity = 0;
   });
-  
-  // Seleciona um botão aleatório para receber o texto (nome de cor errado)
-  const targetIndex = Math.floor(Math.random() * 10);
-  finalCorrectColor = buttonColors[targetIndex];
-  // Escolhe um nome de cor diferente da cor real
-  let otherColors = buttonColors.filter(color => color !== finalCorrectColor);
-  let randomWrongColor = otherColors[Math.floor(Math.random() * otherColors.length)];
-  
-  // Exibe o nome errado no botão selecionado
-  buttons[targetIndex].textContent = randomWrongColor;
-  
-  // Exibe o bloco do desafio final para o jogador responder
-  document.getElementById('finalLevel').style.display = 'flex';
+  setTimeout(() => {
+    // Reinicia os botões para exibir suas cores reais
+    buttons.forEach((button, index) => {
+      button.style.backgroundColor = buttonColors[index];
+      button.style.opacity = 1;
+      button.textContent = ''; // Limpa qualquer texto anterior
+    });
+    // Inicia a primeira fase do nível final
+    finalPhase = 0;
+    startFinalLevel();
+  }, 1000);
+}
+
+// FUNÇÕES DO NÍVEL FINAL
+
+// Inicia uma fase do desafio final (nível 2)
+function startFinalLevel() {
+  // Aplica transição (fade) aos botões se necessário
+  buttons.forEach(button => {
+    button.style.transition = "opacity 1s ease";
+    button.style.opacity = 0;
+  });
+  setTimeout(() => {
+    // Exibe todas as cores e limpa textos anteriores
+    buttons.forEach((button, index) => {
+      button.style.backgroundColor = buttonColors[index];
+      button.style.opacity = 1;
+      button.textContent = '';
+    });
+    // Seleciona um botão aleatório para exibir o nome incorreto
+    const targetIndex = Math.floor(Math.random() * 10);
+    finalCorrectColor = buttonColors[targetIndex];
+    // Escolhe um nome de cor diferente (em português)
+    let otherColors = buttonColors.filter(color => color !== finalCorrectColor);
+    let randomWrongColor = otherColors[Math.floor(Math.random() * otherColors.length)];
+    buttons[targetIndex].textContent = randomWrongColor;
+    
+    // Exibe o bloco do desafio final com efeito fade-in
+    const finalDiv = document.getElementById('finalLevel');
+    finalDiv.style.display = 'flex';
+    finalDiv.style.opacity = 0;
+    finalDiv.style.transition = "opacity 1s ease";
+    setTimeout(() => {
+      finalDiv.classList.add('show');
+      finalDiv.style.opacity = 1;
+    }, 10);
+  }, 1000);
+}
+
+// Função para transição entre fases do nível final
+function transitionFinalPhase() {
+  // Limpa o campo de resposta
+  document.getElementById('finalAnswer').value = '';
+  // Aplica fade-out nos botões
+  buttons.forEach(button => {
+    button.style.transition = "opacity 1s ease";
+    button.style.opacity = 0;
+  });
+  setTimeout(() => {
+    // Reinicia os botões para nova fase do desafio final
+    buttons.forEach((button, index) => {
+      button.style.backgroundColor = buttonColors[index];
+      button.style.opacity = 1;
+      button.textContent = '';
+    });
+    const targetIndex = Math.floor(Math.random() * 10);
+    finalCorrectColor = buttonColors[targetIndex];
+    let otherColors = buttonColors.filter(color => color !== finalCorrectColor);
+    let randomWrongColor = otherColors[Math.floor(Math.random() * otherColors.length)];
+    buttons[targetIndex].textContent = randomWrongColor;
+  }, 1000);
 }
 
 // Função para checar a resposta do desafio final
 function checkFinalAnswer() {
   const userAnswer = document.getElementById('finalAnswer').value.trim().toLowerCase();
   if (userAnswer === finalCorrectColor.toLowerCase()) {
-    alert("Parabéns! Você venceu o jogo!");
-    resetGame(true);
+    finalPhase++;
+    if (finalPhase < finalPhasesTotal) {
+      alert("Resposta correta! Próxima fase final.");
+      transitionFinalPhase();
+    } else {
+      alert("Parabéns! Você venceu o jogo!");
+      resetGame(true);
+    }
   } else {
     alert("Resposta incorreta. Game Over!");
     resetGame(true);
   }
 }
 
-// Evento para o botão de envio da resposta do desafio final
+// Evento para o botão de envio do desafio final
 document.getElementById('submitFinalAnswer').addEventListener('click', checkFinalAnswer);
